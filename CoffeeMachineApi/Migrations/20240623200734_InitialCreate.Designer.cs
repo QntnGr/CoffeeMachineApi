@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoffeeMachineApi.Migrations
 {
     [DbContext(typeof(CoffeeContext))]
-    [Migration("20240623125757_InitialCreate")]
+    [Migration("20240623200734_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -30,21 +30,39 @@ namespace CoffeeMachineApi.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.ToTable("Drinks");
+                });
+
+            modelBuilder.Entity("CoffeeMachineApi.Entities.DrinkIngredient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("DrinkId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("IngredientId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DrinkId");
+
+                    b.HasIndex("IngredientId");
+
+                    b.ToTable("DrinkIngredient");
                 });
 
             modelBuilder.Entity("CoffeeMachineApi.Entities.Ingredient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("DrinkId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -56,21 +74,25 @@ namespace CoffeeMachineApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DrinkId");
-
                     b.ToTable("Ingredients");
                 });
 
-            modelBuilder.Entity("CoffeeMachineApi.Entities.Ingredient", b =>
+            modelBuilder.Entity("CoffeeMachineApi.Entities.DrinkIngredient", b =>
                 {
                     b.HasOne("CoffeeMachineApi.Entities.Drink", null)
-                        .WithMany("Ingredients")
+                        .WithMany("DrinkIngredients")
                         .HasForeignKey("DrinkId");
+
+                    b.HasOne("CoffeeMachineApi.Entities.Ingredient", "Ingredient")
+                        .WithMany()
+                        .HasForeignKey("IngredientId");
+
+                    b.Navigation("Ingredient");
                 });
 
             modelBuilder.Entity("CoffeeMachineApi.Entities.Drink", b =>
                 {
-                    b.Navigation("Ingredients");
+                    b.Navigation("DrinkIngredients");
                 });
 #pragma warning restore 612, 618
         }

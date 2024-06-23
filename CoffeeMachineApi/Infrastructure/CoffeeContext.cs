@@ -5,8 +5,8 @@ namespace CoffeeMachineApi.Infrastructure;
 
 public class CoffeeContext : DbContext
 {
-    public DbSet<Ingredient> Ingredients { get; set;}
-    public DbSet<Drink> Drinks { get; set;}
+    public virtual DbSet<Ingredient> Ingredients { get; set;}
+    public virtual DbSet<Drink> Drinks { get; set;}
     public string DbPath { get; set;}
 
     public CoffeeContext()
@@ -17,4 +17,5 @@ public class CoffeeContext : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlite($"Data Source={DbPath}");
+
 }

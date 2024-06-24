@@ -1,4 +1,4 @@
-﻿namespace CoffeeMachineApi.Entities
+﻿namespace CoffeeMachineApi.Infrastructure
 {
     public class TokenConfiguration
     {

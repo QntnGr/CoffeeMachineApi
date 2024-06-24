@@ -1,11 +1,13 @@
 using CoffeeMachineApi.Entities;
+using CoffeeMachineApi.Helpers;
 using CoffeeMachineApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeMachineApi.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
+[Route("api/[controller]/[action]")]
+[Authorize]
 public class CoffeeMachineController : ControllerBase
 {
     private readonly ILogger<CoffeeMachineController> _logger;
@@ -17,13 +19,13 @@ public class CoffeeMachineController : ControllerBase
         _catalogService = catalogService;
     }
 
-    [HttpGet(Name = "GetDrinks")]
+    [HttpGet]
     public async Task<IEnumerable<Drink>> GetAll()
     {
         return  await _catalogService.GetAll();
     }
 
-    [HttpGet("{id}", Name = "GetPriceByDrinkId")]
+    [HttpGet("{id}")]
     public async Task<decimal> GetById(int id)
     {
         return await _catalogService.GetPriceByDrinkId(id);

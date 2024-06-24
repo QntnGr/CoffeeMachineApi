@@ -1,5 +1,4 @@
 using CoffeeMachineApi.Entities;
-using CoffeeMachineApi.Infrastructure;
 using CoffeeMachineApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Moq;

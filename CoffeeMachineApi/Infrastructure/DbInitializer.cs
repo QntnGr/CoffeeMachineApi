@@ -1,4 +1,5 @@
 ﻿using CoffeeMachineApi.Entities;
+using CoffeeMachineApi.Helpers;
 
 namespace CoffeeMachineApi.Infrastructure;
 
@@ -13,6 +14,12 @@ public class DbInitializer : IDisposable
 
     public void InitData()
     {
+        if(!_context.Users.Any())
+        {
+            var userSystem = new User() { FirstName = "jMleCafé", LastName="BienSerré", Username = "System", Password = "System", IsActive = true };
+            _context.Users.Add(userSystem);
+            _context.SaveChanges();
+        }
         if (_context.Drinks.Any() || _context.Ingredients.Any())
         {
             return;

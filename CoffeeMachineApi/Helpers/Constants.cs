@@ -1,4 +1,4 @@
-﻿namespace CoffeeMachineApi.Entities;
+﻿namespace CoffeeMachineApi.Helpers;
 
 public static class Constants
 {

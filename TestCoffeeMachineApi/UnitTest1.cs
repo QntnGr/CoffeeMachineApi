@@ -3,6 +3,7 @@ using CoffeeMachineApi.Infrastructure;
 using CoffeeMachineApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Moq;
+using Moq.EntityFrameworkCore;
 
 namespace TestCoffeeMachineApi
 {
@@ -25,8 +26,8 @@ namespace TestCoffeeMachineApi
             var mockDbSetDrinks = CreateMockDbSet(drinks.AsQueryable());
             var mockDbSetIngredients = CreateMockDbSet(ingredients.AsQueryable());
 
-            mockContext.Setup(c => c.Drinks).Returns(mockDbSetDrinks.Object);
-            mockContext.Setup(c => c.Ingredients).Returns(mockDbSetIngredients.Object);
+            mockContext.Setup(c => c.Drinks).ReturnsDbSet(mockDbSetDrinks.Object);
+            mockContext.Setup(c => c.Ingredients).ReturnsDbSet(mockDbSetIngredients.Object);
 
             return mockContext;
         }
@@ -36,7 +37,7 @@ namespace TestCoffeeMachineApi
         {
             var ingredients = new List<Ingredient>
             {
-                new Ingredient { Id = 1, UnitPrice = 1.0m },
+                new Ingredient { Id = 1, UnitPrice = 1.0m , Name = "Coffee"},
                 new Ingredient { Id = 2, UnitPrice = 2.0m }
             };
 
@@ -57,7 +58,7 @@ namespace TestCoffeeMachineApi
             var mockContext = CreateMockContext(drinks, ingredients);
             var catalogService = new CatalogService(mockContext.Object);
             int drinkId = 1;
-            decimal expectedPrice = (1.0m + 2.0m) * 1.3m;
+            decimal expectedPrice = (1.0m + 2.0m * 2) * 1.3m;
 
             // Act
             var price = catalogService.GetPriceByDrinkId(drinkId).Result;

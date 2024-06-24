@@ -24,7 +24,7 @@ namespace CoffeeMachineApi.Services
             var drink = await _coffeeContext.Drinks.Include(dr => dr.DrinkIngredients)
                 .FirstOrDefaultAsync(d => d.Id == id);
 
-            return drink?.DrinkIngredients.Sum(di => _coffeeContext.Ingredients.FirstOrDefault(i=>i.Id == di.Id)?.UnitPrice *  ProfitMargin) ?? decimal.MinusOne;
+            return drink?.DrinkIngredients.Sum(di => _coffeeContext.Ingredients.FirstOrDefault(i=>i.Id == di.Id)?.UnitPrice * di.Count *  ProfitMargin) ?? decimal.MinusOne;
         }
     }
 }
